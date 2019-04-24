@@ -14,6 +14,15 @@ class Serv(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes(file_to_open, 'utf-8'))
 
+    def do_POST(self):
+	            #Get the content length so we know how much data to read.
+        content_length = int(self.headers['Content-Length'])
+                #Read the post data
+        post_data = self.rfile.read(content_length) # <--- Gets the data itself
+                #Print the data
+        print(post_data)
+                #Reply with a 200.
+	    self.send_response(200)
 
 httpd = HTTPServer(('localhost', 8080), Serv)
 httpd.serve_forever()
