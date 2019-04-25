@@ -2,9 +2,12 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import socketserver
 import json
 
-def controller(data):
-    print(data)
-
+def controller(data, main):
+    # try:
+    #     data = json.loads(data)
+    # except:
+    #     print("")
+    main._set_headers()
 
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
@@ -17,13 +20,13 @@ class S(BaseHTTPRequestHandler):
         print("GET REQUEST PERFORMED")
 
     def do_POST(self):
-        #doesn't do anything with posted data
-        self._set_headers()
+        # #doesn't do anything with posted data
+        # self._set_headers()
         #Get the content length so we know how much data to read.
         content_length = int(self.headers['Content-Length'])
         #Read the post data
         post_data = self.rfile.read(content_length).decode("utf-8")
-        controller(post_data)
+        controller(post_data, self)
 
 def run(server_class=HTTPServer, handler_class=S, port=8080):
     server_address = ('', port)
