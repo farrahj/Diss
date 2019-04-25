@@ -1,6 +1,11 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import socketserver
 import json
+
+def controller(data):
+    print(data)
+
+
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
         self.send_response(200)
@@ -18,7 +23,7 @@ class S(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length'])
         #Read the post data
         post_data = self.rfile.read(content_length).decode("utf-8")
-        print(post_data)
+        controller(post_data)
 
 def run(server_class=HTTPServer, handler_class=S, port=8080):
     server_address = ('', port)
